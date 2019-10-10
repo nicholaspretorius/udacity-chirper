@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { handleInitialData } from "../actions/shared";
 import Dashboard from "./Dashboard";
+import authedUser from "../reducers/authedUser";
 
 class App extends Component {
   componentDidMount() {
@@ -11,14 +12,15 @@ class App extends Component {
 
   render() {
     return (
-      <div data-testid="app">
-        Starter Code
-        <Dashboard />
-      </div>
+      <div data-testid="app">{this.props.loading === true ? <p>Loading...</p> : <Dashboard />}</div>
     );
   }
 }
 
-export default connect(state => ({
-  loading: state.loading
-}))(App);
+function mapStateToProps() {
+  return {
+    loading: authedUser === null
+  };
+}
+
+export default connect(mapStateToProps)(App);
